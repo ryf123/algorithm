@@ -5,11 +5,8 @@ public class Subset {
    public static void main(String[] args){
 	   int k = Integer.valueOf(args[0]);
 	   RandomizedQueue<String> rq = new RandomizedQueue<String>();
-//	   String[] strs = StdIn.readAllStrings();
-	   
-	   String[] strs = {"AA","BB","BB","BB","BB","BB","CC","CC"};
-	   for(int i = 0; i< strs.length ; i++){
-		   rq.enqueue(strs[i]);
+	   while(!StdIn.isEmpty()) {
+		   rq.enqueue(StdIn.readString());
 	   }
 	   Iterator<String> it = rq.iterator();
 	   int size = Math.min(rq.size(), k);

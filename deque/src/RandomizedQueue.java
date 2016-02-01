@@ -15,16 +15,17 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
    }
    public boolean isEmpty()                 // is the queue empty?
    {
-	   return this.size >= 0;
+	   return this.size() <= 0;
    }
    public int size()                        // return the number of items on the queue
    {
 	   return this.size + 1;
    }
    // double the current array size
-   private Node[] resize(Node[] s){
-	   Node[] new_s = new Node[s.length*2];
-	   for(int i=0;i<s.length;i++)
+   private Node[] resize(Node[] s,int new_size){
+//	   System.out.printf("new size: %d\n",new_size);
+	   Node[] new_s = new Node[new_size];
+	   for(int i=0;i<this.size;i++)
 		   new_s[i] = s[i];
 	   return new_s;
    }
@@ -32,25 +33,31 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
    {
 	   if (item == null)
 		   throw new java.lang.NullPointerException();
-	   if(++size == s.length)
-		   s = this.resize(s);
+	   if(++this.size == s.length)
+		   s = this.resize(s,s.length*2);
 	   Node n = new Node();
-	   this.s[size] = n;
+	   this.s[this.size] = n;
 	   n.item = item;
+	   
    }
    public Item dequeue()                    // remove and return a random item
    {
-	   if (size == 0)
+	   if (this.isEmpty())
 		   throw new java.util.NoSuchElementException();
 	   int seed = this.generateSeed(this.size);
 	   Item ret = (Item)this.s[seed].item;
 	   this.s[seed].item = this.s[size].item;
+	   this.s[size] = null;
 	   size--;
+	   if(size == this.s.length/4)
+		   this.s = resize(s,s.length/2);
 	   return ret;
    }
    public Item sample()                     // return (but do not remove) a random item
    {
-	   int seed = this.generateSeed(this.size);
+	   if(this.isEmpty())
+		   throw new java.util.NoSuchElementException();
+	   int seed = this.generateSeed(this.size());
 	   return (Item)this.s[seed].item;
    }
    private int generateSeed(int n){
@@ -60,7 +67,6 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 	private int left;
 	private int size;
 	private Node[] s;
-	private boolean[] visited;
 	public myIterator(Node[] s,int size){
 		this.size = size;
 		left = size;
@@ -108,11 +114,12 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
    public static void main(String[] args)   // unit testing
    {
 	   RandomizedQueue<Integer> rq = new RandomizedQueue<Integer>();
-	   for(int i=0;i<100;i++)
+	   for(int i=0;i<64;i++)
 		   rq.enqueue(i);
-	   Iterator<Integer> it = rq.iterator();
-	   while (it.hasNext()){
-		   System.out.printf("item is: %d\n", (int)it.next());
-	   }
+	   	   rq.size();
+//	   Iterator<Integer> it = rq.iterator();
+//	   while (it.hasNext()){
+//		   System.out.printf("item is: %d\n", (int)it.next());
+//	   }
    }
 }

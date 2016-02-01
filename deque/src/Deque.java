@@ -26,7 +26,7 @@ public class Deque<Item> implements Iterable<Item> {
    public void addFirst(Item item)          // add the item to the front
    {
 	   if (this.checkNull(item))
-		   throw new java.util.NoSuchElementException();
+		   throw new java.lang.NullPointerException();
 	   if (head == null) {
 		   head = new Node();
 		   head.item = item;
@@ -43,7 +43,7 @@ public class Deque<Item> implements Iterable<Item> {
    public void addLast(Item item)           // add the item to the end
    {
 	   if (this.checkNull(item))
-		   throw new java.util.NoSuchElementException();
+		   throw new java.lang.NullPointerException();
 	   if (tail == null){
 		   tail = new Node();
 		   tail.item = item;
@@ -72,7 +72,7 @@ public class Deque<Item> implements Iterable<Item> {
 		   return (Item)temp.item;
 	   }
 	   else
-		   throw new java.lang.UnsupportedOperationException();
+		   throw new java.util.NoSuchElementException();
    }
    public Item removeLast()                 // remove and return the item from the end
    {
@@ -89,7 +89,7 @@ public class Deque<Item> implements Iterable<Item> {
 		   return (Item)temp.item;
 	   }
 	   else
-		   throw new java.lang.UnsupportedOperationException();
+		   throw new java.util.NoSuchElementException();
    }
    public Iterator<Item> iterator()         // return an iterator over items in order from front to end
    {
@@ -122,31 +122,14 @@ public class Deque<Item> implements Iterable<Item> {
 	@Override
 	public void remove() {
 		// TODO Auto-generated method stub
-		throw new java.util.NoSuchElementException();
+		throw new java.lang.UnsupportedOperationException ();
 	}
 	   
    }
    public static void main(String[] args)   // unit testing
    {
-	   Deque<Integer> dq = new Deque<Integer>();
-	   dq.addFirst(1);
-	   dq.addLast(2);
-	   System.out.printf("item is %d\n",dq.removeFirst());
-	   System.out.printf("item is %d\n",dq.removeFirst());
-	   dq.addLast(3);
-	   System.out.printf("item is %d\n",dq.removeFirst());
-	   System.out.printf("size is %d\n",dq.size());
-	   dq.addLast(4);
-	   System.out.printf("item is %d\n",dq.removeFirst());
-	   System.out.printf("size is %d\n",dq.size());
-	   dq.addFirst(100);
-	   dq.addFirst(200);
-	   dq.addFirst(300);
-	   Iterator it = dq.iterator();
-	   System.out.printf("item is %d\n",(int)it.next());
-	   if (it.hasNext())
-		   System.out.printf("item is %d\n",(int)it.next());
-	   System.out.printf("item is %d\n",(int)it.next());
-	   
+//	   Deque<Integer> dq = new Deque<Integer>();
+//	   dq.addFirst(1);
+
    }
 }
