@@ -4,3 +4,9 @@
 *.class
 
 *.jar
+
+*.zip
+
+eightpuzzle/.classpath
+
+eightpuzzle/.project

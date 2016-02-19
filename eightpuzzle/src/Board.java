@@ -23,7 +23,9 @@ public class Board{
     	int count = 1;
     	for(int i=0; i<this.N; i++){
     		for(int j=0; j<this.N; j++){
-    			if(i == this.N-1 && j == this.N-1 && this.blocks[i][j] != 0)
+    			if (this.blocks[i][j] == 0)
+    				continue;
+    			else if(i == this.N-1 && j == this.N-1 && this.blocks[i][j] != 0)
     				dist += 1;
     			else if(this.blocks[i][j] != count)
     				dist += 1;
@@ -35,11 +37,14 @@ public class Board{
     public int manhattan()                 // sum of Manhattan distances between blocks and goal
     {
     	int dist = 0;
-    	int count = 0;
     	for(int i=0; i<this.N; i++){
     		for(int j=0; j<this.N; j++){
-    			dist += Math.abs(i-count/3) + Math.abs(j - count%3);
-    			count++;
+    			if (this.blocks[i][j] == 0)
+    				continue;
+    			int num = this.blocks[i][j];
+    			int goalRow = (num-1)/(this.N);
+    			int goalCol = (num-1)%(this.N);
+    			dist += Math.abs(i - goalRow) + Math.abs(j - goalCol);
     		}
     	} 
     	return dist;
