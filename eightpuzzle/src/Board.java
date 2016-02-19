@@ -67,10 +67,9 @@ public class Board{
     			break;
     		indexes2 =this.getRandomIndex();
     	}
-    	int[][] tempB = new int[this.N-1][this.N-1];
+    	int[][] tempB = copyArray(this.blocks);   	
     	tempB[indexes1[0]][indexes1[1]] = this.blocks[indexes2[0]][indexes2[1]];
     	tempB[indexes2[0]][indexes2[1]] = this.blocks[indexes1[0]][indexes1[1]];
-    	System.arraycopy(this.blocks, 0, tempB, 0,this.N-1);
     	return new Board(tempB);
     }
     private int[] getRandomIndex(){
@@ -107,28 +106,37 @@ public class Board{
     			if (blocks[i][j] == 0){
     				zeroX = i;
     				zeroY = j;
+    				break;
     			}
     		}
     	}
-    	for(int i=-1 ; i<=1 ;i++){
-    		for (int j=-1; j<=1; j++){
-    			System.out.printf("i: %d, j: %d\n", i,j);
-    	    	if(zeroX +i >=0 && zeroX+i < this.N && zeroY +j >=0 && zeroY +j < this.N && (i != 0 || j!=0)){
-    	    		// make a copy of the board and exchange the value of 0 block and it's neighbor
-        	    	int[][] tempB = new int[this.N][this.N];
-        	    	System.arraycopy(blocks, 0, tempB, 0, this.N);
-        	    	tempB[zeroX][zeroY] = tempB[zeroX+i][zeroY+j];
-        	    	tempB[zeroX+i][zeroY+j] = 0;
-        	    	this.neighbor.add(new Board(tempB));
-    	    	}
-    		}
+    	// neighbors are -1,0 1,0 0,-1 0,1
+    	int[][] positions = {{-1,0},{1,0},{0,-1},{0,1}};
+    	for(int[] pos:positions){
+    		int i = pos[0];
+    		int j = pos[1];
+//			System.out.printf("i: %d, j: %d\n", i,j);
+			if(zeroX +i >=0 && zeroX+i < this.N && zeroY +j >=0 && zeroY +j < this.N ){
+	    		// make a copy of the board and exchange the value of 0 block and it's neighbor
+    	    	int[][] tempB = copyArray(this.blocks);
+    	    	tempB[zeroX][zeroY] = tempB[zeroX+i][zeroY+j];
+    	    	tempB[zeroX+i][zeroY+j] = 0;
+    	    	this.neighbor.add(new Board(tempB));
+	    	}
+    		
     	}	
     	return this.neighbor;
     }
-
+    private int[][] copyArray(int[][] o){
+    	int[][] c = new int[o.length][o.length];
+    	for(int i=0; i< o.length; i++)
+    		for(int j=0; j< o.length; j++)
+    			c[i][j] = o[i][j];
+    	return c;
+    }
     public String toString()               // string representation of this board (in the output format specified below)
     {
-    	String ret = "";
+    	String ret = Integer.toString(this.N) + "\n";
     	for(int i=0; i<this.N; i++){
     		int j = 0;
     		while (j < this.N-1){

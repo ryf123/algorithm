@@ -49,7 +49,13 @@ public class PuzzleChecker {
             Board initial = new Board(tiles);
             StdOut.println(initial);
             Solver solver = new Solver(initial);
-            StdOut.println(filename + ": " + solver.moves());
+            if (!solver.isSolvable())
+                StdOut.println("No solution possible");
+            else {
+                StdOut.println("Minimum number of moves = " + solver.moves());
+                for (Board board : solver.solution())
+                    StdOut.println(board);
+            }
         }
     }
 }
