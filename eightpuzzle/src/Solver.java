@@ -47,6 +47,12 @@ public class Solver {
     	int count = 0;
     	MinPQ<SearchNode> pq;
     	HashMap<String, String> table = new HashMap<String, String>();
+    	if (initial.isGoal()){
+    		target = initial_pq.delMin();
+    	}
+    	if(twin.isGoal()){
+    		target = twin_pq.delMin();
+    	}
     	while(true){
     		if(count %2 ==0){
     			pq = initial_pq;
