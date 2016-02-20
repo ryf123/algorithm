@@ -4,7 +4,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 
 import edu.princeton.cs.algs4.MinPQ;
-import edu.princeton.cs.algs4.StdOut;
+
 public class Solver {
 	private boolean isSolvable;
 	private int moves;
@@ -46,7 +46,7 @@ public class Solver {
     	SearchNode target = null;
     	int count = 0;
     	MinPQ<SearchNode> pq;
-    	HashMap<String, String> table = new HashMap<String, String>();
+    	HashMap<Integer, String> table = new HashMap<Integer, String>();
     	if (initial.isGoal()){
     		target = initial_pq.delMin();
     	}
@@ -63,14 +63,14 @@ public class Solver {
         	if (!pq.isEmpty()){
         		SearchNode sn = pq.delMin();
         		for(Board neighbor:sn.board.neighbors()){
-        			if(sn.prev == null || neighbor.toString() != sn.prev.board.toString()){
+        			if(sn.prev == null || neighbor.hashCode() != sn.prev.board.hashCode()){
         				SearchNode neighbor_sn = new SearchNode(neighbor,sn,sn.move+1,sn.move+1 + neighbor.manhattan());
         				if(neighbor.isGoal()){
         					target = neighbor_sn;
         					break;
         				}
         				else{
-        					if (!table.containsKey(neighbor.toString())){
+        					if (!table.containsKey(neighbor.hashCode())){
         						pq.insert(neighbor_sn);
 //        						StdOut.print(neighbor);
         					}	
@@ -78,7 +78,7 @@ public class Solver {
         				
         			}
         		}
-        		table.put(sn.board.toString(),"");
+        		table.put(sn.board.hashCode(),"");
         	}
         	
         	if (target != null){

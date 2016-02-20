@@ -6,7 +6,7 @@ public class Board{
 	
     public Board(int[][] blocks)           // construct a board from an N-by-N array of blocks
     {
-    	this.blocks = blocks;
+    	this.blocks = this.copyArray(blocks);
     	this.N = blocks.length;
 
 
