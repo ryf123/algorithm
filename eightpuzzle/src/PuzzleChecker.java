@@ -48,6 +48,7 @@ public class PuzzleChecker {
             // solve the slider puzzle
             Board initial = new Board(tiles);
             StdOut.println(initial);
+            StdOut.printf("hamming %d\n", initial.hamming());
             Solver solver = new Solver(initial);
             if (!solver.isSolvable())
                 StdOut.println("No solution possible");

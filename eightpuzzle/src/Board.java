@@ -3,10 +3,9 @@ import java.util.ArrayList;
 public class Board{
 	private int[][] blocks;
 	private int N;
-	private ArrayList<Board> neighbor;
+	
     public Board(int[][] blocks)           // construct a board from an N-by-N array of blocks
     {
-    	this.neighbor = new ArrayList<Board>();
     	this.blocks = blocks;
     	this.N = blocks.length;
 
@@ -20,16 +19,14 @@ public class Board{
     public int hamming()                   // number of blocks out of place
     {
     	int dist = 0;
-    	int count = 1;
+    	int count = 0;
     	for(int i=0; i<this.N; i++){
     		for(int j=0; j<this.N; j++){
+    			count++;
     			if (this.blocks[i][j] == 0)
     				continue;
-    			else if(i == this.N-1 && j == this.N-1 && this.blocks[i][j] != 0)
-    				dist += 1;
     			else if(this.blocks[i][j] != count)
     				dist += 1;
-    			count++;
     		}
     	} 
     	return dist;
@@ -93,17 +90,11 @@ public class Board{
     }
     public boolean equals(Object y)        // does this board equal y?
     {
-    	Board that = (Board)y;
-    	for(int i=0; i<this.N; i++){
-    		for(int j=0; j<this.N; j++){
-    			if(this.blocks[i][j] != that.blocks[i][j])
-    				return false;
-    		}
-    	}
-    	return true;
+    	return (String)y == this.toString();
     }
     public Iterable<Board> neighbors()     // all neighboring boards
     {
+    	ArrayList<Board> neighbor = new ArrayList<Board>();;
     	int zeroX = 0;
     	int zeroY = 0;
     	for(int i=0; i<this.N; i++){
@@ -126,11 +117,11 @@ public class Board{
     	    	int[][] tempB = copyArray(this.blocks);
     	    	tempB[zeroX][zeroY] = tempB[zeroX+i][zeroY+j];
     	    	tempB[zeroX+i][zeroY+j] = 0;
-    	    	this.neighbor.add(new Board(tempB));
+    	    	neighbor.add(new Board(tempB));
 	    	}
     		
     	}	
-    	return this.neighbor;
+    	return neighbor;
     }
     private int[][] copyArray(int[][] o){
     	int[][] c = new int[o.length][o.length];
