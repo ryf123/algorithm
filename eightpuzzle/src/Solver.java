@@ -41,8 +41,8 @@ public class Solver {
     	MinPQ<SearchNode> initial_pq = new MinPQ<SearchNode>(cmp);
     	MinPQ<SearchNode> twin_pq = new MinPQ<SearchNode>(cmp);
     	Board twin = initial.twin();
-    	initial_pq.insert(new SearchNode(initial,null,0,initial.hamming()));
-    	twin_pq.insert(new SearchNode(twin,null,0,twin.hamming()));
+    	initial_pq.insert(new SearchNode(initial,null,0,initial.manhattan()));
+    	twin_pq.insert(new SearchNode(twin,null,0,twin.manhattan()));
     	SearchNode target = null;
     	int count = 0;
     	MinPQ<SearchNode> pq;
@@ -64,7 +64,7 @@ public class Solver {
         		SearchNode sn = pq.delMin();
         		for(Board neighbor:sn.board.neighbors()){
         			if(sn.prev == null || neighbor.toString() != sn.prev.board.toString()){
-        				SearchNode neighbor_sn = new SearchNode(neighbor,sn,sn.move+1,neighbor.hamming());
+        				SearchNode neighbor_sn = new SearchNode(neighbor,sn,sn.move+1,sn.move+1 + neighbor.manhattan());
         				if(neighbor.isGoal()){
         					target = neighbor_sn;
         					break;
@@ -112,6 +112,9 @@ public class Solver {
     public Iterable<Board> solution()      // sequence of boards in a shortest solution; null if unsolvable
     {
     	Collections.reverse(this.solution);
+    	if(this.solution.size() == 0){
+    		return null;
+    	}
     	return this.solution;
     }
     public static void main(String[] args) // solve a slider puzzle (given below)

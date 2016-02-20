@@ -90,7 +90,22 @@ public class Board{
     }
     public boolean equals(Object y)        // does this board equal y?
     {
-    	return (String)y == this.toString();
+    	if(y == null) 
+    		return false;
+    	if(y.getClass() != this.getClass()) 
+    		return false;
+    	if( y == this)
+    		return true;
+     	Board that = (Board)y;
+     	if (this.blocks.length != that.blocks.length)
+     		return false;
+    	for(int i=0; i<this.N; i++){
+    		for(int j=0; j<this.N; j++){
+    			if(this.blocks[i][j] != that.blocks[i][j])
+    				return false;
+    		}
+    	}
+    	return true;
     }
     public Iterable<Board> neighbors()     // all neighboring boards
     {

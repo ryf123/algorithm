@@ -54,8 +54,10 @@ public class PuzzleChecker {
                 StdOut.println("No solution possible");
             else {
                 StdOut.println("Minimum number of moves = " + solver.moves());
-                for (Board board : solver.solution())
+                for (Board board : solver.solution()){
+                	StdOut.printf("hamming: %d\n",board.hamming());
                     StdOut.println(board);
+                }
             }
         }
     }
