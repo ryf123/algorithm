@@ -147,16 +147,22 @@ public class KdTree {
 		   if (temp != null)
 			   if (temp.distanceTo(p) < nearest.distanceTo(p)) 
 				   nearest = temp;
-		   if(node.rt.p.distanceTo(p) < nearest.distanceTo(p))
-			   nearest = this.neareast_dist(node.rt, p, !compareX);
+		   if (node.rt != null)
+			   if(node.rt.rect.distanceTo(p) < nearest.distanceTo(p))
+				   temp = this.neareast_dist(node.rt, p, !compareX);
+				   if (temp != null && temp.distanceTo(p) < nearest.distanceTo(p)) 
+					   nearest = temp;
 	   }
 	   else{
 		   Point2D temp =  this.neareast_dist(node.rt, p, !compareX);
 		   if (temp != null)
 			   if (temp.distanceTo(p) < nearest.distanceTo(p)) 
 				   nearest = temp;
-		   if(node.lb.p.distanceTo(p) < nearest.distanceTo(p))
-			   nearest = this.neareast_dist(node.lb, p, !compareX);
+		   if(node.lb != null)
+			   if(node.lb.rect.distanceTo(p) < nearest.distanceTo(p))
+				   temp = this.neareast_dist(node.lb, p, !compareX);
+		   		   if (temp != null && temp.distanceTo(p) < nearest.distanceTo(p)) 
+		   			   nearest = temp;
 	   }
 	   return nearest;
    }

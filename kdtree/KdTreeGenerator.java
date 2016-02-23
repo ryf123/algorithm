@@ -21,6 +21,7 @@ public class KdTreeGenerator {
 
     public static void main(String[] args) {
         int N = Integer.parseInt(args[0]);
+        N = 2;
         for (int i = 0; i < N; i++) {
             double x = StdRandom.uniform(0.0, 1.0);
             double y = StdRandom.uniform(0.0, 1.0);
