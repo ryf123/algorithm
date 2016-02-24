@@ -16,13 +16,13 @@ public class KdTree {
 	private Node root;
 	private int size;
 	public KdTree(){
-		root = new Node();
-		root.p = null;
+		this.root = new Node();
+		this.root.p = null;
 		this.size = 0;
 	}
 	public boolean isEmpty()                      // is the set empty?
 	{
-		return root.p == null;
+		return this.size() ==0;
 	} 
    public int size()                         // number of points in the set
    {
@@ -30,6 +30,9 @@ public class KdTree {
    } 
    public void insert(Point2D p)              // add the point to the set (if it is not already in the set)
    {
+	   if(p == null)
+		   throw new java.lang.NullPointerException();
+	   this.size++;
 	   if(this.root.p == null){
 		   this.root.p = p;
 		   this.root.rect = new RectHV(0,0,1,1);
@@ -39,6 +42,11 @@ public class KdTree {
 	   }
    }
    private void add(Node node,Point2D p,Boolean compareX){
+	   // handle duplicate case
+	   if(node.p.compareTo(p) == 0){
+		   this.size--;
+		   return;
+	   }
 	   if((p.x() < node.p.x() && compareX) || (!compareX && p.y() < node.p.y())){
 		   if(node.lb == null){
 			   Node newnode = new Node();
@@ -76,11 +84,15 @@ public class KdTree {
    }
    public boolean contains(Point2D p)            // does the set contain point p?
    {
+	   if(p == null)
+		   throw new java.lang.NullPointerException();
 	   return this.contain(this.root, p,true);
    }
    private boolean contain(Node node,Point2D p,boolean compareX){
-	   if(node == null) return false;
-	   else if(node.p == p){
+	   if(p == null)
+		   throw new java.lang.NullPointerException();
+	   if(node == null || node.p == null) return false;
+	   else if(node.p.compareTo(p)==0){
 		   return true;
 	   }
 	   else if(compareX){
@@ -121,6 +133,8 @@ public class KdTree {
    }
    public Iterable<Point2D> range(RectHV rect)             // all points that are inside the rectangle
    {
+	   if(rect == null)
+		   throw new java.lang.NullPointerException();
 	   ArrayList<Point2D> ret = new ArrayList<Point2D>();
 	   this.search(this.root, rect,ret);
 	   return ret;
@@ -128,7 +142,8 @@ public class KdTree {
    private void search(Node node,RectHV rect,ArrayList<Point2D> ret){
 	   if(node == null) return;
 	   if(node.rect.intersects(rect)){
-		   ret.add(node.p);
+		   if(rect.contains(node.p))
+			   ret.add(node.p);
 		   this.search(node.lb, rect, ret);
 		   this.search(node.rt, rect, ret);
 	   }
@@ -140,7 +155,7 @@ public class KdTree {
 	   return this.neareast_dist(this.root, p, true);
    } 
    private Point2D neareast_dist(Node node,Point2D p,boolean compareX){
-	   if (node == null) return null;
+	   if (node == null || node == null) return null;
 	   Point2D nearest = node.p;
 	   if((p.x() < node.p.x() && compareX) || (!compareX && p.y() < node.p.y())){
 		   Point2D temp = this.neareast_dist(node.lb, p, !compareX);
