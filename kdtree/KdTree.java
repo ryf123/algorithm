@@ -140,7 +140,7 @@ public class KdTree {
 	   return ret;
    }
    private void search(Node node,RectHV rect,ArrayList<Point2D> ret){
-	   if(node == null) return;
+	   if(node == null || node.rect == null) return;
 	   if(node.rect.intersects(rect)){
 		   if(rect.contains(node.p))
 			   ret.add(node.p);
@@ -155,7 +155,7 @@ public class KdTree {
 	   return this.neareast_dist(this.root, p, true);
    } 
    private Point2D neareast_dist(Node node,Point2D p,boolean compareX){
-	   if (node == null || node == null) return null;
+	   if (node == null || node.p == null) return null;
 	   Point2D nearest = node.p;
 	   if((p.x() < node.p.x() && compareX) || (!compareX && p.y() < node.p.y())){
 		   Point2D temp = this.neareast_dist(node.lb, p, !compareX);
