@@ -50,7 +50,10 @@ public class SeamCarver {
    }
    public double energy(int x, int y)               // energy of pixel at column x and row y
    {
-	   return this.energies[x][y];
+	   if(x == 0 || x == this.width()-1 || y == 0 || y == this.height() - 1)
+		   return 1000;
+	   else
+		   return Math.sqrt(calDelta(x-1,y,x+1,y) + calDelta(x,y-1,x,y+1));
    }
    private double calDelta(int x1, int y1, int x2, int y2){
 	   
@@ -132,16 +135,16 @@ public class SeamCarver {
    }
    private void transpose(){
 
-	   double[][] energies = new double[this.height()][this.width()];
+	   int[][] colors = new int[this.height()][this.width()];
 	   for(int y=0; y < h; y++){
 		   for(int x=0; x < w; x++){
-				   energies[y][x] = this.energies[x][y];
+				   colors[y][x] = this.colors[x][y];
 		   }
 	   }
 	   int temp = this.width();
 	   this.w = this.h;
 	   this.h = temp;
-	   this.energies = energies;
+	   this.colors = colors;
    }
    public void removeHorizontalSeam(int[] seam)   // remove horizontal seam from current picture
    {
@@ -156,11 +159,11 @@ public class SeamCarver {
 	   System.out.printf("w: %d h:%d\n\n", this.w,this.h);
 	   for(int i = 0; i < l; i++){
 		   int pos = seam[i];
-		   double[]  colEnergy = this.energies[pos];
-		   System.out.printf("i: %d w: %d, arrayLen: %d, i:%d\n",i,this.height()-i-1,colEnergy.length,i);
-		   System.arraycopy(colEnergy,i+1, colEnergy, i,this.height() -i-1);
-		   int[] rowColor = this.colors[pos];
-		   System.arraycopy(rowColor,i+1, rowColor, i,this.height()-i-1);
+		   for (int j = pos; j< this.width() -1 ; j++){
+			   this.colors[j][i] = this.colors[j+1][i];
+		   }
+//		   int[] rowColor = this.colors[pos];
+//		   System.arraycopy(rowColor,i+1, rowColor, i,this.height()-i-1);
 	   }
 	   this.w -= 1;
    }
