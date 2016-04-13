@@ -2,12 +2,13 @@ import java.util.ArrayList;
 
 import edu.princeton.cs.algs4.Digraph;
 import edu.princeton.cs.algs4.BreadthFirstDirectedPaths;
+import edu.princeton.cs.algs4.StdOut;
 public class SAP {
 	private Digraph graph;
 	private static final int INFINITY = Integer.MAX_VALUE;
    // constructor takes a digraph (not necessarily a DAG)
    public SAP(Digraph G){
-	   this.graph = G;
+	   this.graph = new Digraph(G);
    }
 
    // length of shortest ancestral path between v and w; -1 if no such path
@@ -52,6 +53,7 @@ public class SAP {
 	   else{
 		   return synset;
 	   }
+	   
    }
 
    // length of shortest ancestral path between any vertex in v and any vertex in w; -1 if no such path

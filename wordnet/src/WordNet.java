@@ -17,7 +17,7 @@ public class WordNet {
 	   String[] lines = in.readAllLines();
 	   int l = lines.length;
 	   this.graph = new Digraph(l);
-	   this.sapmethod = new SAP(this.graph);
+	   
 	   this.map = new HashMap<String,ArrayList<Integer>>();
 	   this.mapR = new HashMap<Integer,String>();
 	   for(int i=0;i<lines.length;i++){
@@ -45,9 +45,22 @@ public class WordNet {
 			   this.graph.addEdge(root,Integer.parseInt(infos[i]));
 		   }
 	   }
-//	   System.out.println(this.graph.toString());
+	   this.sapmethod = new SAP(this.graph);
+	   if (!this.detectDAG(this.graph)){
+		   throw new java.lang.IllegalArgumentException();
+	   }
    }
-
+   // check if the graph is a digraph
+   // namely there is a node which has outdegree 0
+   private boolean detectDAG(Digraph graph){
+	   int count = 0;
+	   for(int v=0;v < graph.V(); v++){
+		   if(graph.outdegree(v) == 0){
+			   count += 1;
+		   }
+	   }
+	   return (count == 1);
+   }
    // returns all WordNet nouns
    public Iterable<String> nouns(){
 	   ArrayList<String> la = new ArrayList<String>();
@@ -102,8 +115,8 @@ public class WordNet {
 	   String synset = "synsets3.txt";
 	   String hyper = "hypernyms3InvalidTwoRoots.txt";
 	   WordNet wn = new WordNet(synset,hyper);
-	   String nounA = "inducement";
-	   String nounB = "shout";
+	   String nounA = "nitpicker";
+	   String nounB = "lactase_deficiency";
 	   String ret = wn.sap(nounA, nounB);
 	   int dist = wn.distance(nounA, nounB);
 	   System.out.println(ret);
