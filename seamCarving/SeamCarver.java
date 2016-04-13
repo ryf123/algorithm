@@ -1,13 +1,13 @@
 import java.awt.Color;
 
 import edu.princeton.cs.algs4.Picture;
-import edu.princeton.cs.algs4.StdOut;
 
 public class SeamCarver {
    private double[][] energies;
    private int w;
    private int h;
-   int[][] colors;
+   private int[][] colors;
+   
    public SeamCarver(Picture picture)                // create a seam carver object based on the given picture
    {
 	   this.w = picture.width();
@@ -50,6 +50,8 @@ public class SeamCarver {
    }
    public double energy(int x, int y)               // energy of pixel at column x and row y
    {
+	   if (x >= this.width() || x < 0 || y >= this.height() || y < 0)
+		   throw new java.lang.IndexOutOfBoundsException();
 	   if(x == 0 || x == this.width()-1 || y == 0 || y == this.height() - 1)
 		   return 1000;
 	   else
@@ -73,17 +75,14 @@ public class SeamCarver {
    private void findPathHorizon(int[][] mark,int i, int j,int[] path){
 	   path[j] = i;
 	   if (j > 0){
-//		   System.out.printf("j: %d, i: %d:mark: %d\n",j,i,mark[i][j]);
 		   this.findPathHorizon(mark, mark[i][j], j-1, path);
 	   }
    }
    
    public int[] findVerticalSeam()                 // sequence of indices for vertical seam
    {
-	   System.out.println("remove vertical\n");
 	   int w = this.width();
 	   int h = this.height();
-//	   double[][] energies = this.getEnergyArray();
 	   double[][] distTo = new double[h][w];
 	   
 	   // initialize all distTo to be maximum
@@ -109,7 +108,6 @@ public class SeamCarver {
 				   distTo[i+1][j-1] = distTo[i][j] + this.energy(j-1,i+1);
 				   mark[i+1][j-1] = j;
 			   }
-//			   System.out.printf("i: %d, j: %d: %f , mark: %d\n",i,j,distTo[i][j],mark[i][j]);
 		   }
 		   
 	   }
@@ -146,24 +144,39 @@ public class SeamCarver {
 	   this.h = temp;
 	   this.colors = colors;
    }
+   private boolean validateSeam(int[] seam,boolean horizon){
+	   if (horizon && (this.height() <= 1 || seam.length != this.width()))
+		   return false;
+	   if(!horizon && (this.width() <= 1 || seam.length != this.height()))
+		   return false;
+	   for(int i = 0; i< seam.length - 1; i++){
+		   if (Math.abs(seam[i] - seam[i+1]) >1)
+			   return false;
+	   }
+	   return true;
+   }
    public void removeHorizontalSeam(int[] seam)   // remove horizontal seam from current picture
    {
-	   System.out.println("remove horizon\n");
+	   if(!this.validateSeam(seam, true))
+		   throw new java.lang.IllegalArgumentException();
+	   if(seam == null)
+		   throw new java.lang.NullPointerException();
 	   this.transpose();   
 	   this.removeVerticalSeam(seam);
 	   this.transpose();
    }
    public void removeVerticalSeam(int[] seam)     // remove vertical seam from current picture
    {
+	   if(!this.validateSeam(seam, false))
+		   throw new java.lang.IllegalArgumentException();
+	   if(seam == null)
+		   throw new java.lang.NullPointerException();
 	   int l = seam.length;
-	   System.out.printf("w: %d h:%d\n\n", this.w,this.h);
 	   for(int i = 0; i < l; i++){
 		   int pos = seam[i];
 		   for (int j = pos; j< this.width() -1 ; j++){
 			   this.colors[j][i] = this.colors[j+1][i];
 		   }
-//		   int[] rowColor = this.colors[pos];
-//		   System.arraycopy(rowColor,i+1, rowColor, i,this.height()-i-1);
 	   }
 	   this.w -= 1;
    }
