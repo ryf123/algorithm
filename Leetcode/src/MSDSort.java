@@ -181,7 +181,7 @@ public class MSDSort {
      * and prints them to standard output in ascending order.
      */
     public static void main(String[] args) {
-    	String s = "4314 1334 3212 4241 4311 3413 2311 4412 1343 2334 1214 1444 1331 3324 2234";
+    	String s = "2132 4214 3213 3422 4112 1322 4341 3231 3232 1134 1141 1132 2133 2314 1413";
         String[] a = s.split(" ");
         int N = a.length;
         sort(a);

@@ -95,7 +95,7 @@ public class Quick3string {
     public static void main(String[] args) {
 
         // read in the strings from standard input
-    	String s = "2344 5544 2641 1612 1144 2242 1251 3265 2531 6522";
+    	String s = "3564 2213 6513 3213 6343 1123 3431 2552 1155 3211";
         String[] a = s.split(" ");
         int N = a.length;
 

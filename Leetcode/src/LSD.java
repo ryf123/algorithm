@@ -93,7 +93,8 @@ public class LSD {
      * and prints them to standard output in ascending order.
      */
     public static void main(String[] args) {
-    	String s = "2444 4314 2113 2311 2413 1413 2431 1111 1213 2133";
+    		String s = "1112 3131 3443 4331 3413 2131 1431 1311 3441 3143";
+    
         String[] a = s.split(" ");
         int N = a.length;
 
