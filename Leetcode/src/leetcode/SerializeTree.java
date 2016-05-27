@@ -30,7 +30,7 @@ public class SerializeTree {
 	    }
 
 	    private TreeNode buildTree(Deque<String> nodes) {
-	        String val = nodes.remove();
+	        String val = nodes.pop();
 	        if (val.equals(NN)) return null;
 	        else {
 	            TreeNode node = new TreeNode(Integer.valueOf(val));

@@ -1,7 +1,10 @@
 package leetcode;
 
+import java.util.Stack;
+
 public class DistinctSubsequence {
     public int numDistinct(String S, String T) {
+    		
         int[][] result = new int[T.length()+1][S.length()+1];
         for(int i=0; i<S.length()+1; i++){
           result[0][i]=1;
