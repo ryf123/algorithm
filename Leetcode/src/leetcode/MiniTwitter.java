@@ -1,7 +1,5 @@
 package leetcode;
-
-import com.sun.tools.internal.xjc.reader.xmlschema.bindinfo.BIConversion.Static;
-
+import java.util.*;
 public class MiniTwitter {
 	class Tweet {
 		  public static int id;

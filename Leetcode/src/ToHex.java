@@ -6,7 +6,7 @@ public class ToHex {
         for(int i=0;i<8;i++){// break 32 bits into 8 4 bits
             int n = num & mask;
             if(n >= 10){
-                char c = 'a' + (char)(n -10);
+                char c = (char) ('a' + (char)(n -10));
                 sb.append(c);
             }
             else{

@@ -43,4 +43,7 @@ public abstract class ElevatorController implements Runnable{
 	void saveRequest(Request r){
 		
 	}
+    public static void main(String[] args) {
+    	System.out.println("controller started");
+	}
 }
